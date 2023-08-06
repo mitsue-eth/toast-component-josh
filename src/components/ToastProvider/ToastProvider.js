@@ -26,8 +26,14 @@ function ToastProvider({ children }) {
     setToasts(filteredToasts);
   }
 
+  function dismissAllToasts() {
+    setToasts([]);
+  }
+
   return (
-    <ToastContext.Provider value={{ toasts, createToast, dismissToast }}>
+    <ToastContext.Provider
+      value={{ toasts, createToast, dismissToast, dismissAllToasts }}
+    >
       {children}
     </ToastContext.Provider>
   );

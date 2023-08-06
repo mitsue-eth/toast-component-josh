@@ -9,8 +9,22 @@ import { ToastContext } from "../ToastProvider";
 function ToastShelf() {
   console.log("ToastShelf rerendered");
 
-  const { toasts } = React.useContext(ToastContext);
+  const { toasts, dismissAllToasts } = React.useContext(ToastContext);
   console.log("Toasts updated in toastShelf: ", toasts);
+
+  React.useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.code === "Escape") {
+        dismissAllToasts();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [dismissAllToasts]);
 
   return (
     <ol className={styles.wrapper}>
