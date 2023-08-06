@@ -3,13 +3,17 @@ import React from "react";
 import Toast from "../Toast";
 import styles from "./ToastShelf.module.css";
 
-function ToastShelf({ toastPropsArray }) {
+function ToastShelf({ toasts, handleRemoveToast }) {
   return (
     <ol className={styles.wrapper}>
-      {toastPropsArray.map((toastProps, index) => {
+      {toasts.map((toastProps, index) => {
         return (
-          <li className={styles.toastWrapper} key={index}>
-            <Toast key={index} type={toastProps.type}>
+          <li className={styles.toastWrapper} key={toastProps.id}>
+            <Toast
+              type={toastProps.type}
+              id={toastProps.id}
+              handleRemoveToast={handleRemoveToast}
+            >
               {toastProps.message}
             </Toast>
           </li>

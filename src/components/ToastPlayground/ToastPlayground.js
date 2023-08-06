@@ -16,30 +16,41 @@ function ToastPlayground() {
     setToastType(e.target.value);
   };
 
-  const [toastPropsArray, setToastPropsArray] = React.useState([]);
+  const [toasts, setToasts] = React.useState([]);
 
-  const currentToastProps = {
+  const currentToast = {
     message: textareaMessage,
     type: toastType,
+    id: crypto.randomUUID(),
   };
 
-  const popToastClick = (e) => {
+  const handleRemoveToast = (id) => {
+    const filteredToasts = toasts.filter((toast) => {
+      return toast.id !== id;
+    });
+
+    setToasts(filteredToasts);
+  };
+
+  const addToastButton = (e) => {
     e.preventDefault();
-    const newToastPropsArray = [...toastPropsArray, currentToastProps];
-    setToastPropsArray(newToastPropsArray);
+
+    const newToasts = [...toasts, currentToast];
+    setToasts(newToasts);
     setToastType(VARIANT_OPTIONS[0]);
     setTextareaMessage("");
-    console.log("New props for toasts: ", newToastPropsArray);
+
+    console.log("Latest List of Toasts: ", newToasts);
   };
 
   return (
-    <form onSubmit={popToastClick} className={styles.wrapper}>
+    <form onSubmit={addToastButton} className={styles.wrapper}>
       <header>
         <img alt='Cute toast mascot' src='/toast.png' />
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toastPropsArray={toastPropsArray} />
+      <ToastShelf toasts={toasts} handleRemoveToast={handleRemoveToast} />
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
