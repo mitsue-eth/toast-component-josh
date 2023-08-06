@@ -2,45 +2,39 @@ import React from "react";
 
 import Button from "../Button";
 import ToastShelf from "../ToastShelf";
+// import { useContext } from "react";
+import { ToastContext } from "../ToastProvider";
 
 import styles from "./ToastPlayground.module.css";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
+  console.log("ToastPlayground rerendered");
+
+  const { handleAddToast } = React.useContext(ToastContext);
   const [textareaMessage, setTextareaMessage] = React.useState("");
   const [toastType, setToastType] = React.useState(VARIANT_OPTIONS[0]);
-  // const [isToastShown, setIsToastShown] = React.useState(false);
 
   const onOptionChange = (e) => {
     setToastType(e.target.value);
   };
 
-  const [toasts, setToasts] = React.useState([]);
-
-  const currentToast = {
-    message: textareaMessage,
-    type: toastType,
-    id: crypto.randomUUID(),
-  };
-
-  const handleRemoveToast = (id) => {
-    const filteredToasts = toasts.filter((toast) => {
-      return toast.id !== id;
-    });
-
-    setToasts(filteredToasts);
-  };
-
   const addToastButton = (e) => {
     e.preventDefault();
 
-    const newToasts = [...toasts, currentToast];
-    setToasts(newToasts);
+    const newToast = {
+      id: crypto.randomUUID(),
+      type: toastType,
+      message: textareaMessage,
+    };
+
+    console.log("Toast to be added: ", newToast);
+
+    handleAddToast(newToast);
+
     setToastType(VARIANT_OPTIONS[0]);
     setTextareaMessage("");
-
-    console.log("Latest List of Toasts: ", newToasts);
   };
 
   return (
@@ -50,7 +44,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toasts={toasts} handleRemoveToast={handleRemoveToast} />
+      <ToastShelf />
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>

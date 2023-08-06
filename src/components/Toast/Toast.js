@@ -9,6 +9,9 @@ import {
 
 import VisuallyHidden from "../VisuallyHidden";
 
+// import { useContext } from "react";
+import { ToastContext } from "../ToastProvider";
+
 import styles from "./Toast.module.css";
 
 const ICONS_BY_VARIANT = {
@@ -18,7 +21,13 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ type, handleRemoveToast, id, children }) {
+function Toast({ id, type, children }) {
+  console.log("Toast rerendered");
+
+  const { handleRemoveToast } = React.useContext(ToastContext);
+  // const toast = toasts.filter((item) => item.id === id);
+  // const type = toast.id;
+
   const Icon = ICONS_BY_VARIANT[type];
 
   return (
