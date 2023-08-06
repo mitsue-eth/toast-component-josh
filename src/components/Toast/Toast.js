@@ -24,9 +24,7 @@ const ICONS_BY_VARIANT = {
 function Toast({ id, type, children }) {
   console.log("Toast rerendered");
 
-  const { handleRemoveToast } = React.useContext(ToastContext);
-  // const toast = toasts.filter((item) => item.id === id);
-  // const type = toast.id;
+  const { dismissToast } = React.useContext(ToastContext);
 
   const Icon = ICONS_BY_VARIANT[type];
 
@@ -38,7 +36,7 @@ function Toast({ id, type, children }) {
       <p className={styles.content}>{children}</p>
       <button
         className={styles.closeButton}
-        onClick={() => handleRemoveToast(id)}
+        onClick={() => dismissToast({ id })}
       >
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>

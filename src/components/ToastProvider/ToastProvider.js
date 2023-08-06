@@ -5,27 +5,29 @@ export const ToastContext = React.createContext();
 function ToastProvider({ children }) {
   console.log("ToastProvider rerendered");
 
-  const [toasts, setToasts] = React.useState([
-    // { message: "Hi", type: "notice", id: "122234" },
-  ]);
+  const [toasts, setToasts] = React.useState([]);
 
-  const handleAddToast = (toast) => {
-    const newToasts = [...toasts, toast];
-    console.log("Here are toasts to be added: ", newToasts);
+  function createToast({ message, type }) {
+    const newToasts = [
+      ...toasts,
+      {
+        message,
+        type,
+        id: crypto.randomUUID(),
+      },
+    ];
     setToasts(newToasts);
-  };
+  }
 
-  const handleRemoveToast = (id) => {
+  function dismissToast({ id }) {
     const filteredToasts = toasts.filter((item) => {
       return item.id !== id;
     });
     setToasts(filteredToasts);
-  };
+  }
 
   return (
-    <ToastContext.Provider
-      value={{ toasts, handleAddToast, handleRemoveToast }}
-    >
+    <ToastContext.Provider value={{ toasts, createToast, dismissToast }}>
       {children}
     </ToastContext.Provider>
   );

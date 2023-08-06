@@ -12,7 +12,7 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 function ToastPlayground() {
   console.log("ToastPlayground rerendered");
 
-  const { handleAddToast } = React.useContext(ToastContext);
+  const { createToast } = React.useContext(ToastContext);
   const [textareaMessage, setTextareaMessage] = React.useState("");
   const [toastType, setToastType] = React.useState(VARIANT_OPTIONS[0]);
 
@@ -23,15 +23,7 @@ function ToastPlayground() {
   const addToastButton = (e) => {
     e.preventDefault();
 
-    const newToast = {
-      id: crypto.randomUUID(),
-      type: toastType,
-      message: textareaMessage,
-    };
-
-    console.log("Toast to be added: ", newToast);
-
-    handleAddToast(newToast);
+    createToast({ message: textareaMessage, type: toastType });
 
     setToastType(VARIANT_OPTIONS[0]);
     setTextareaMessage("");
